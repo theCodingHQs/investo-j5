@@ -37,14 +37,14 @@ const SearchProject = () => {
   });
 
   return (
-    <div className="flex h-main overflow-auto bg-white">
-      <div className="min-w-[40%] h-main sticky top-0 left-0 py-4 px-2">
+    <div className="flex  bg-white">
+      <div className="min-w-[40%] h-page sticky top-0 left-0 py-4 px-2">
         <div className="rounded-2xl overflow-hidden shadow h-full border">
           <Map pinnedLocations={pinnedLocations} searchResult={searchResult} />
         </div>
       </div>
-      <div className="w-full  p-2  lg:p-6">
-        <div className="w-full  p-5 rounded-xl mb-6 bg-[#EBF7FC] sticky top-4 ">
+      <div className="w-full h-page overflow-auto  px-2">
+        <div className="w-full  p-5 rounded-xl mb-6 bg-[#EBF7FC] sticky top-0 shadow-lg">
           <div className="flex flex-col lg:flex-row items-center gap-4">
             <SearchBar onSearchResult={setSearchResult} />
             <Select placeholder="Price" options={[]} />
@@ -94,15 +94,15 @@ const SearchProject = () => {
                       <th className="font-normal text-start">price</th>
                     </tr>
                   </thead>
-                  {item.units.map((unit, index) => (
-                    <tbody>
-                      <tr>
+                  <tbody>
+                    {item.units.map((unit, index) => (
+                      <tr key={unit.unit}>
                         <td>{unit.unit}</td>
                         <td>{unit.size}</td>
                         <td>{unit.price}</td>
                       </tr>
-                    </tbody>
-                  ))}
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>

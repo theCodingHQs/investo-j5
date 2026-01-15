@@ -33,10 +33,8 @@ export default function SearchBar({
 
   return (
     <div className="w-full bg-blue-50 p-4 rounded-xl text-sm text-gray-500">
-      
       {/* TOP ROW */}
       <div className="flex flex-wrap items-center gap-3">
-
         {/* Search Input */}
         <div className="flex items-center bg-white border border-gray-300 rounded-full px-2 w-full sm:w-64">
           <input
@@ -49,7 +47,11 @@ export default function SearchBar({
             }}
             className="w-full outline-none py-2 text-sm text-gray-500 placeholder-gray-500"
           />
-          <img src="" alt="" className="bg-[#0095DA] rounded-full w-9 h-8 border-none"/>
+          <img
+            src=""
+            alt=""
+            className="bg-[#0095DA] rounded-full w-9 h-8 border-none"
+          />
         </div>
 
         {/* Price Dropdown */}
