@@ -1,7 +1,14 @@
 import ProjectDetails from "@/components/project-details";
-import React from "react";
 
-const Page = ({ params }: { params: { id: string } }) => {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+async function Page({ params }: PageProps) {
+  const { id } = await params;
+
   return (
     <div
       className="w-full bg-white text-[#32353B]"
@@ -12,9 +19,9 @@ const Page = ({ params }: { params: { id: string } }) => {
         backgroundPosition: "0 0",
       }}
     >
-      <ProjectDetails id={params.id} />
+      <ProjectDetails id={id} />
     </div>
   );
-};
+}
 
 export default Page;

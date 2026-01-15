@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { searchLocation } from "@/api/search";
+import { searchProject } from "@/api/search-projects";
 
-export const useSearchLocation = (query: string) => {
+export const useSearchProject = (query: string) => {
   return useQuery({
-    queryKey: ["search-location", query],
-    queryFn: () => searchLocation(query),
+    queryKey: ["search-project", query],
+    queryFn: () => searchProject(query),
     enabled: !!query?.trim(),
     staleTime: 1000 * 60,
   });

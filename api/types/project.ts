@@ -1,119 +1,114 @@
+import { Amenity } from "./amenity";
+import { Builder } from "./builder";
+import { User } from "./user";
+
 export interface Project {
   _id?: string;
-  title?: string;
   slug?: string;
-  description?: string;
-  highlight?: string;
-
-  publish?: boolean;
-  created_at?: string;
-
   residency_type?: string;
-  property_type?: string;
-
-  address?: string;
-  locality?: Locality;
-
-  bhk?: number[];
-
-  decision_drivers?: DecisionDrivers;
-  location?: LocationInfo;
-
-  amenities?: AmenityItem[];
-  tags?: Tag[];
-  gallery?: GalleryImage[];
-  faq?: FAQ[];
-  configuration?: Configuration[];
-
-  banks?: any[];
-  plots?: any[];
-
-  creator_id?: string;
-  builder?: string;
-
+  title?: string;
   meta_title?: string;
   meta_description?: string;
+  property_type?: string;
+  videoLink?: string;
+  highlight?: string;
+  address?: string;
 
-  minimum_price?: number;
-  maximum_price?: number;
-  price_per_sq_ft?: number | null;
-
-  possession_date?: string;
   possession_status?: string;
   possession_value?: number;
+  possession_date?: Date;
 
   rating?: number;
+  minimum_price?: number;
+  maximum_price?: number;
+  price_per_sq_ft?: number;
+  avg_price?: number;
+  emi_price?: number;
+
+  featured_image?: Image;
+  gallery?: Image[];
+
+  bhk?: number[];
+  size?: number;
+  area?: number;
+
+  builder?: string | Builder;
+  amenities?: Array<string | Amenity>;
+
+  faq?: FAQ[];
+  configuration?: Configuration[];
+  plots?: Plot[];
+
+  decision_drivers?: DecisionDrivers;
+
+  location?: ProjectLocation;
+  landmark?: string;
+
+  creator_id?: string | User;
+  locality?: Locality | string;
+
   rear_id?: string;
-  __v?: number;
+  description?: string;
+
+  publish?: boolean;
+  created_at?: Date;
+
+  tags?: Tag[];
+  banks?: string[];
 }
 
-export interface LocationInfo {
-  coordinates: [number, number]; // [lng, lat]
-  iframe: string;
-}
-
-export interface DecisionDrivers {
-  connectivity: number;
-  life_style: number;
-  livability: number;
-  value_for_money: number;
-}
-
-export interface Locality {
-  _id: string;
-  city: string;
-  locality: string;
-  slug: string;
-  famous_places: any[];
-}
-
-export interface Tag {
-  _id: string;
-  tag: string;
-  status: boolean;
-}
-
-export interface GalleryImage {
-  _id: string;
-  image_key: string;
-  location: string;
+export interface Image {
+  location?: string;
+  image_key?: string;
 }
 
 export interface FAQ {
-  _id: string;
-  question: string;
-  answer: string;
+  question?: string;
+  answer?: string;
 }
 
-export interface Configuration {
-  _id: string;
-  bhk: number;
-  floor_plan: FloorPlan[];
+export interface Tag {
+  tag?: string;
+  status?: boolean;
+}
+
+export interface Locality {
+  _id?: string;
+  city?: string;
+  locality?: string;
+  slug?: string;
+  famous_places?: string[];
 }
 
 export interface FloorPlan {
-  _id: string;
-  built_area: number;
-  carpet_area: number;
-  price: number;
-  location: string;
-  image_key: string;
+  price?: number;
+  built_area?: number;
+  carpet_area?: number;
+  image_key?: string;
+  location?: string;
 }
 
-export interface AmenityItem {
-  _id: string;
-  category: AmenityCategory;
-  amenity: Amenity;
+export interface Configuration {
+  bhk?: number;
+  floor_plan?: FloorPlan[];
 }
 
-export interface Amenity {
-  name: string;
+export interface Plot {
+  price?: number;
+  built_area?: number;
+  carpet_area?: number;
+  image_key?: string;
+  location?: string;
 }
 
-export type AmenityCategory =
-  | "Furnishing"
-  | "Sports"
-  | "Convenience"
-  | "Safety"
-  | "Leisure"
-  | "Environment";
+export interface DecisionDrivers {
+  connectivity?: number;
+  life_style?: number;
+  livability?: number;
+  value_for_money?: number;
+}
+
+export interface ProjectLocation {
+  iframe?: string;
+  coordinates?: [number, number];
+}

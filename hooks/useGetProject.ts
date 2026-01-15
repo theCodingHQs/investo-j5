@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProject } from "@/api/project";
+import { getProjectListing } from "@/api/project-listing";
 
-export const useGetProject = (query?: string) => {
+export const useProjectListing = (query?: string) => {
   return useQuery({
     queryKey: ["get-project", query],
-    queryFn: () => getProject(query || ""),
+    queryFn: () => getProjectListing(query || ""),
     enabled: !!query?.trim(),
     staleTime: 1000 * 60,
   });

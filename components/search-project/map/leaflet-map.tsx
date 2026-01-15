@@ -8,21 +8,22 @@ import { pinIcon } from "./icons";
 import { MapUpdater } from "./map-updater";
 import { BoundaryOverlay } from "./boundary-overlay";
 import { CurrentLocation } from "./current-location";
+import { ProjectLocation } from "@/api/types/project";
 
 interface Props {
-  pinnedLocations: Location[];
+  pinnedLocations: (ProjectLocation | undefined)[];
   searchResult: SearchResult | null;
 }
 
 export default function LeafletMap({ pinnedLocations, searchResult }: Props) {
-  const point =
-    searchResult?.geojson?.type === "Point"
-      ? [
-          searchResult.geojson.coordinates[1],
-          searchResult.geojson.coordinates[0],
-        ]
-      : null;
-
+  // const point =
+  //   searchResult?.geojson?.type === "Point"
+  //     ? [
+  //         searchResult.geojson.coordinates[1],
+  //         searchResult.geojson.coordinates[0],
+  //       ]
+  //     : null;
+  pinnedLocations.map((loc) => console.log(loc));
   return (
     <MapContainer
       center={[18.487223, 73.791085]}
@@ -37,17 +38,33 @@ export default function LeafletMap({ pinnedLocations, searchResult }: Props) {
       <MapUpdater searchResult={searchResult} />
       <BoundaryOverlay searchResult={searchResult} />
 
-      {point && (
+      {/* {point && (
         <Marker position={point}>
           <Popup>{searchResult?.display_name}</Popup>
         </Marker>
-      )}
+      )} */}
 
-      {pinnedLocations.map((loc) => (
-        <Marker key={loc.id} position={[loc.lat, loc.lng]} icon={pinIcon}>
-          <Popup>{loc.name}</Popup>
-        </Marker>
-      ))}
+      {pinnedLocations.map(
+        (loc) =>
+          loc?.coordinates &&
+          loc?.coordinates?.length == 2 && (
+            <Marker
+              position={[loc.coordinates[1], loc.coordinates[0]]}
+              icon={pinIcon}
+            >
+              <Popup>
+                {
+                  <div
+                    className="flex justify-center"
+                    dangerouslySetInnerHTML={{
+                      __html: loc.iframe || "",
+                    }}
+                  />
+                }
+              </Popup>
+            </Marker>
+          )
+      )}
 
       <CurrentLocation />
     </MapContainer>

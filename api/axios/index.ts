@@ -1,7 +1,7 @@
 "use client";
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
-const BASE_URL = "http://localhost:4002/";
+const BASE_URL = "http://localhost:4002/api/v1";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: BASE_URL,

@@ -2,11 +2,12 @@
 import React from "react";
 import Connectivity from "./Connectivity";
 import Amenities from "./Amenities";
-import { useGetProject } from "@/hooks/useGetProject";
+import { useProjectListing } from "@/hooks/useGetProject";
 import PropertyDetailsHeroSection from "./hero";
 
 const ProjectDetails = ({ id }: { id: string }) => {
-  const { data: project = {} } = useGetProject("godrej-woodsville");
+  // const { data: project = {} } = useGetProject("godrej-woodsville");
+  const project = {};
   return (
     <div className="w-full max-w-7xl mx-auto py-6">
       {/* Top layout: Left images + right form */}
