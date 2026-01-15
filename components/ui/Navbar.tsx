@@ -13,10 +13,10 @@ export default function Navbar() {
   const { city, region, country, error } = useUserLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // const handleScroll = () => setScrolled(window.scrollY > 20);
+    // handleScroll();
+    // window.addEventListener("scroll", handleScroll);
+    // return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const locationText = error
