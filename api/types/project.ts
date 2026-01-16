@@ -45,7 +45,7 @@ export interface Project {
   landmark?: string;
 
   creator_id?: string | User;
-  locality?: Locality | string;
+  locality?: Locality;
 
   rear_id?: string;
   description?: string;

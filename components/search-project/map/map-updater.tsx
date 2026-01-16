@@ -14,11 +14,7 @@ export function MapUpdater({
   useEffect(() => {
     if (!searchResult) return;
 
-    map.setView(
-      [parseFloat(searchResult.lat), parseFloat(searchResult.lon)],
-      12,
-      { animate: true }
-    );
+    map.setView([18.487223, 73.791085], 12, { animate: true });
   }, [searchResult, map]);
 
   return null;

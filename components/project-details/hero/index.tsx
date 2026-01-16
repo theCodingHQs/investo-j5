@@ -3,8 +3,9 @@ import Badge from "./badge";
 import StatCard from "./stat-card";
 import InfoCard from "./info-card";
 import ContactForm from "./contact-form";
+import { Project } from "@/api/types/project";
 
-const PropertyDetailsHeroSection = () => {
+const PropertyDetailsHeroSection = ({ project }: { project: Project }) => {
   const propertyInfo = [
     { label: "Possession", value: "Dec 2025" },
     { label: "Price", value: "70 Lac - 2.5 Cr" },
@@ -36,7 +37,7 @@ const PropertyDetailsHeroSection = () => {
     <div className="min-h-screen ">
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Image Gallery - Full Width */}
-        <ImageGallery isNew={true} />
+        <ImageGallery isNew={true} gallery={project?.gallery || []} />
 
         {/* Content Section - 2 Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">

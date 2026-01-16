@@ -4,14 +4,15 @@ import Connectivity from "./Connectivity";
 import Amenities from "./Amenities";
 import { useProjectListing } from "@/hooks/useGetProject";
 import PropertyDetailsHeroSection from "./hero";
+import { useProjectBySlug } from "@/hooks/useProjectBySlug";
 
 const ProjectDetails = ({ id }: { id: string }) => {
-  // const { data: project = {} } = useGetProject("godrej-woodsville");
-  const project = {};
+  const { data: project = {} } = useProjectBySlug(id);
+  // console.log(project);
   return (
     <div className="w-full max-w-7xl mx-auto py-6">
       {/* Top layout: Left images + right form */}
-      <PropertyDetailsHeroSection />
+      <PropertyDetailsHeroSection project={project} />
       {/* ABOUT THIS PROJECT */}
       <section className="px-6 md:px-16 mt-12">
         <h2 className="text-2xl md:text-3xl font-semibold">

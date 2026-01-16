@@ -1,16 +1,17 @@
+import { Image } from "@/api/types/project";
+
 interface ImageGalleryProps {
   isNew?: boolean;
+  gallery: Image[];
 }
 
-const ImageGallery = ({ isNew = true }: ImageGalleryProps) => {
+const ImageGallery = ({ isNew = true, gallery }: ImageGalleryProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
       {/* Main Image - Takes 2 columns */}
       <div className="lg:col-span-2 relative  overflow-hidden rounded-lg  border">
         <img
-          src={
-            "https://imageio.forbes.com/b-i-forbesimg/houzz/files/2013/12/contemporary-exterior.jpg?height=496&width=500&fit=bounds"
-          }
+          src={gallery[0]?.location}
           alt="Property exterior"
           className="w-full h-64 md:h-80 lg:h-[340px] object-cover hover:scale-105 transition-transform cursor-pointer "
         />
@@ -54,18 +55,14 @@ const ImageGallery = ({ isNew = true }: ImageGalleryProps) => {
         {/* Top row - 2 thumbnails */}
         <div className=" overflow-hidden rounded-lg  border">
           <img
-            src={
-              "https://imageio.forbes.com/b-i-forbesimg/houzz/files/2013/12/contemporary-exterior.jpg?height=496&width=500&fit=bounds"
-            }
+            src={gallery[1]?.location}
             alt="Living room"
             className="  w-full h-32 lg:h-[164px] object-cover hover:scale-105 transition-transform cursor-pointer"
           />
         </div>
         <div className=" overflow-hidden rounded-lg  border">
           <img
-            src={
-              "https://imageio.forbes.com/b-i-forbesimg/houzz/files/2013/12/contemporary-exterior.jpg?height=496&width=500&fit=bounds"
-            }
+            src={gallery[2]?.location}
             alt="Interior design"
             className="  w-full h-32 lg:h-[164px] object-cover hover:scale-105 transition-transform cursor-pointer"
           />
@@ -74,9 +71,7 @@ const ImageGallery = ({ isNew = true }: ImageGalleryProps) => {
         {/* Bottom row - 1 image spanning full width with overlay buttons */}
         <div className="col-span-2 relative  overflow-hidden rounded-lg  border">
           <img
-            src={
-              "https://imageio.forbes.com/b-i-forbesimg/houzz/files/2013/12/contemporary-exterior.jpg?height=496&width=500&fit=bounds"
-            }
+            src={gallery[0]?.location}
             alt="Bedroom"
             className="  w-full h-32 lg:h-[164px] object-cover hover:scale-105 transition-transform cursor-pointer"
           />

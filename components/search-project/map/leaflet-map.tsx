@@ -23,7 +23,7 @@ export default function LeafletMap({ pinnedLocations, searchResult }: Props) {
   //         searchResult.geojson.coordinates[0],
   //       ]
   //     : null;
-  pinnedLocations.map((loc) => console.log(loc));
+  // pinnedLocations.map((loc) => console.log(loc));
   return (
     <MapContainer
       center={[18.487223, 73.791085]}
@@ -36,7 +36,7 @@ export default function LeafletMap({ pinnedLocations, searchResult }: Props) {
       />
 
       <MapUpdater searchResult={searchResult} />
-      <BoundaryOverlay searchResult={searchResult} />
+      {/* <BoundaryOverlay searchResult={searchResult} /> */}
 
       {/* {point && (
         <Marker position={point}>

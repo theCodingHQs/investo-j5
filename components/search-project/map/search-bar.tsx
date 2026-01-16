@@ -19,7 +19,7 @@ import {
 import { SearchResult } from "./types";
 import { useDebounce } from "react-haiku";
 import { cn } from "@/lib/utils";
-import { useSearchProject } from "@/hooks/useSearchLocation";
+import { useSearchProject } from "@/hooks/useSearchProject";
 
 interface SearchBarProps extends HTMLAttributes<HTMLDivElement> {
   onSearchResult: (result: SearchResult) => void;
