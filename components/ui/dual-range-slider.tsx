@@ -1,172 +1,93 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+"use client";
+
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@/lib/utils";
 
-interface DualRangeSliderProps {
-  min?: number;
-  max?: number;
-  step?: number;
-  defaultValue?: [number, number];
-  value?: [number, number];
-  onChange?: (value: [number, number]) => void;
-  minGap?: number;
-  showLabels?: boolean;
-  showScale?: boolean;
-  className?: string;
+/**
+ * Explicit dual-range value type
+ */
+export type DualRangeValue = [number, number];
+
+interface DualRangeSliderProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
+    "value" | "defaultValue" | "onValueChange"
+  > {
+  value?: DualRangeValue;
+  defaultValue?: DualRangeValue;
+  onValueChange?: (value: DualRangeValue) => void;
+
+  labelPosition?: "top" | "bottom";
+  label?: (value: number | undefined) => React.ReactNode;
 }
 
-const DualRangeSlider = ({
-  min = 0,
-  max = 100,
-  step = 1,
-  defaultValue = [20, 80],
-  value,
-  onChange,
-  minGap = 1,
-  showLabels = true,
-  showScale = true,
-  className,
-}: DualRangeSliderProps) => {
-  const [internalValue, setInternalValue] =
-    useState<[number, number]>(defaultValue);
-
-  // Use controlled or uncontrolled value
-  const currentValue = value ?? internalValue;
-  const [minVal, maxVal] = currentValue;
-
-  const minRef = useRef<HTMLInputElement>(null);
-  const maxRef = useRef<HTMLInputElement>(null);
-
-  // Calculate percentage positions for the active range bar
-  const minPercent = ((minVal - min) / (max - min)) * 100;
-  const maxPercent = ((maxVal - min) / (max - min)) * 100;
-
-  const handleMinChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMin = Math.min(Number(e.target.value), maxVal - minGap);
-      const newValue: [number, number] = [newMin, maxVal];
-
-      if (!value) {
-        setInternalValue(newValue);
-      }
-      onChange?.(newValue);
+const DualRangeSlider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  DualRangeSliderProps
+>(
+  (
+    {
+      className,
+      label,
+      labelPosition = "top",
+      value,
+      defaultValue,
+      min = 0,
+      max = 100,
+      ...props
     },
-    [maxVal, minGap, onChange, value]
-  );
+    ref
+  ) => {
+    /**
+     * Resolve values safely for rendering thumbs
+     * Controlled → value
+     * Uncontrolled → defaultValue
+     * Fallback → [min, max]
+     */
+    const resolvedValue: DualRangeValue =
+      value ?? defaultValue ?? ([min, max] as DualRangeValue);
 
-  const handleMaxChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMax = Math.max(Number(e.target.value), minVal + minGap);
-      const newValue: [number, number] = [minVal, newMax];
+    return (
+      <SliderPrimitive.Root
+        ref={ref}
+        value={value}
+        defaultValue={defaultValue}
+        min={min}
+        max={max}
+        className={cn(
+          "relative flex w-full touch-none select-none items-center",
+          className
+        )}
+        {...props}
+      >
+        <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+          <SliderPrimitive.Range className="absolute h-full bg-primary" />
+        </SliderPrimitive.Track>
 
-      if (!value) {
-        setInternalValue(newValue);
-      }
-      onChange?.(newValue);
-    },
-    [minVal, minGap, onChange, value]
-  );
+        {resolvedValue.map((val, index) => (
+          <SliderPrimitive.Thumb
+            key={index}
+            className="relative block h-4 w-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+          >
+            {label && (
+              <span
+                className={cn(
+                  "absolute flex w-full justify-center",
+                  labelPosition === "top" && "-top-7",
+                  labelPosition === "bottom" && "top-4"
+                )}
+              >
+                {label(val)}
+              </span>
+            )}
+          </SliderPrimitive.Thumb>
+        ))}
+      </SliderPrimitive.Root>
+    );
+  }
+);
 
-  // Sync internal state with controlled value
-  useEffect(() => {
-    if (value) {
-      setInternalValue(value);
-    }
-  }, [value]);
+DualRangeSlider.displayName = "DualRangeSlider";
 
-  return (
-    <div
-      className={cn("relative w-full px-3", className)}
-      role="group"
-      aria-label="Range selector"
-    >
-      {/* Value Display Section */}
-      {showLabels && (
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex flex-col items-center">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-              Min
-            </span>
-            <span className="text-2xl font-bold text-primary tabular-nums">
-              {minVal}
-            </span>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <span className="text-muted-foreground/50 text-xl">—</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-              Max
-            </span>
-            <span className="text-2xl font-bold text-primary tabular-nums">
-              {maxVal}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Slider Container */}
-      <div className="relative h-8 flex items-center">
-        {/* Background Track */}
-        <div
-          className="absolute w-full h-2 bg-muted rounded-full"
-          aria-hidden="true"
-        />
-
-        {/* Active Range Bar */}
-        <div
-          className="absolute h-2 bg-primary rounded-full transition-all duration-75 ease-out"
-          aria-hidden="true"
-          style={{
-            left: `${minPercent}%`,
-            right: `${100 - maxPercent}%`,
-          }}
-        />
-
-        {/* Min Range Input */}
-        <input
-          ref={minRef}
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={minVal}
-          onChange={handleMinChange}
-          className="dual-range-thumb absolute w-full h-2 z-20 appearance-none bg-transparent pointer-events-none cursor-pointer"
-          aria-label="Minimum value"
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={minVal}
-        />
-
-        {/* Max Range Input */}
-        <input
-          ref={maxRef}
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={maxVal}
-          onChange={handleMaxChange}
-          className="dual-range-thumb absolute w-full h-2 z-30 appearance-none bg-transparent pointer-events-none cursor-pointer"
-          aria-label="Maximum value"
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={maxVal}
-        />
-      </div>
-
-      {/* Scale Labels */}
-      {showScale && (
-        <div className="flex justify-between mt-3 text-xs text-muted-foreground/60 font-medium">
-          <span>{min}</span>
-          <span>{min + (max - min) * 0.25}</span>
-          <span>{min + (max - min) * 0.5}</span>
-          <span>{min + (max - min) * 0.75}</span>
-          <span>{max}</span>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default DualRangeSlider;
+export { DualRangeSlider };

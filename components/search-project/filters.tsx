@@ -4,6 +4,7 @@ import SearchBar from "./map/search-bar";
 import Select from "../ui/select";
 import { SearchResult } from "./map/types";
 import { DropdownFilter } from "../ui/dropdown-filter";
+import { useState } from "react";
 
 const Filters = ({
   setSearchResult,
@@ -13,7 +14,7 @@ const Filters = ({
   filters,
   setFilters,
 }: {
-  bedrooms: number[];
+  bedrooms?: number[];
   budgetMinMax?: { min?: number; max?: number };
   propertyTypes: {
     value: string | number | null;
@@ -27,16 +28,13 @@ const Filters = ({
     projectStatus?: string;
   };
   setFilters: React.Dispatch<
-    React.SetStateAction<
-      | {
-          bedrooms?: (string | number)[];
-          propertyType?: string | number | null;
-          budget?: [number, number];
-          area?: [number, number];
-          projectStatus?: string;
-        }
-      | undefined
-    >
+    React.SetStateAction<{
+      bedrooms?: (string | number)[];
+      propertyType?: string | number | null;
+      budget?: [number, number];
+      area?: [number, number];
+      projectStatus?: string;
+    }>
   >;
   setSearchResult: React.Dispatch<React.SetStateAction<SearchResult | null>>;
 }) => {
@@ -55,7 +53,6 @@ const Filters = ({
   };
 
   const setPriceRange = (value: [number, number]) => {
-    console.log(value);
     setFilters((prev) => ({
       ...prev,
       budget: value,
@@ -63,8 +60,9 @@ const Filters = ({
   };
 
   return (
-    <div className="w-full  p-5 rounded-xl  bg-[#EBF7FC] sticky top-0 shadow-lg">
-      <div className="flex flex-col lg:flex-row items-center gap-4">
+    <div className="w-full  z-10  sticky top-0 ">
+      <pre>{JSON.stringify(filters)}</pre>
+      <div className="flex p-5 flex-col lg:flex-row shadow-lg items-center gap-4 rounded-xl  bg-primary/10 backdrop-blur-xl">
         <SearchBar onSearchResult={setSearchResult} />
 
         <DropdownFilter
@@ -103,7 +101,7 @@ const Filters = ({
           showScale
         />
 
-        <button className="bg-white border h-full border-[#0095DA] text-back text-[#0095DA] p-4 py-2 rounded">
+        <button className="bg-white border h-full border-primary text-back text-primary p-4 py-2 rounded">
           Filters
         </button>
       </div>

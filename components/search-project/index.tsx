@@ -13,12 +13,12 @@ import Filters from "./filters";
 
 const SearchProject = () => {
   const [filters, setFilters] = useState<{
-    bedrooms?: number[];
+    bedrooms?: (string | number)[];
     propertyType?: string | number | null;
     budget?: [number, number];
     area?: [number, number];
     projectStatus?: string;
-  }>();
+  }>({});
 
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [appliedFilters, setAppliedFilters] = useState({
@@ -87,7 +87,6 @@ const SearchProject = () => {
           setFilters={setFilters}
           filters={filters}
         />
-
         <div className="flex flex-wrap gap-4 justify-start py-4">
           {filteredResults.map((item) => (
             <ProjectCard project={item} />

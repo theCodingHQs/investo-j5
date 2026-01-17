@@ -3,6 +3,7 @@ import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Pricing from "../pricing";
+import InfoTable from "./project-card/info-table";
 
 const ProjectCard = ({ project }: { project: P }) => {
   const router = useRouter();
@@ -63,24 +64,7 @@ const ProjectCard = ({ project }: { project: P }) => {
         </div>
       </div>
       <div className="p-4 ">
-        <table className="w-full text-start text-gray-500">
-          <thead>
-            <tr>
-              <th className="font-normal text-start">unit</th>
-              <th className="font-normal text-start">size</th>
-              <th className="font-normal text-start">price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* {item.units.map((unit, index) => (
-                      <tr key={unit.unit}>
-                        <td>{unit.unit}</td>
-                        <td>{unit.size}</td>
-                        <td>{unit.price}</td>
-                      </tr>
-                    ))} */}
-          </tbody>
-        </table>
+        <InfoTable data={project.configuration} />
       </div>
     </button>
   );

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import DualRangeSlider from "./dual-range-slider";
+import { DualRangeSlider } from "./dual-range-slider";
 
 interface BaseProps {
   /** Button label */
@@ -78,7 +78,7 @@ function isCheckboxFilter<T>(
 export function DropdownFilter<T>(props: DropdownFilterProps<T>) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { label, type, className, align = "start" } = props;
+  const { label, type, className, align = "end" } = props;
 
   // Close on click outside
   useEffect(() => {
@@ -148,10 +148,8 @@ export function DropdownFilter<T>(props: DropdownFilterProps<T>) {
             max={props.max}
             step={props.step}
             value={props.value}
-            onChange={props.onChange}
-            minGap={props.minGap}
-            showScale={props.showScale}
-            showLabels
+            label={(value) => value}
+            onValueChange={props.onChange}
           />
         </div>
       );
@@ -285,7 +283,7 @@ export function DropdownFilter<T>(props: DropdownFilterProps<T>) {
         aria-expanded={open}
         aria-haspopup="listbox"
         className={cn(
-          "inline-flex items-center justify-between gap-2 px-4 py-2 rounded-md",
+          "inline-flex text-nowrap items-center justify-between gap-2 px-4 py-2 rounded-md",
           "border border-input bg-background text-sm font-normal",
           "hover:bg-accent hover:text-accent-foreground",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -294,8 +292,8 @@ export function DropdownFilter<T>(props: DropdownFilterProps<T>) {
           className
         )}
       >
-        <span className="flex items-center gap-2">
-          {label}
+        <span className="flex  items-center gap-2">
+          <div>{label}</div>
           {selectedDisplay !== null && (
             <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
               {selectedDisplay}
@@ -314,7 +312,7 @@ export function DropdownFilter<T>(props: DropdownFilterProps<T>) {
       {open && (
         <div
           className={cn(
-            "absolute z-50 mt-2 rounded-md border border-border bg-popover shadow-md",
+            "flex items-end absolute z-50 mt-2 min-h-16 p-6 pb-2 rounded-md border border-border bg-popover shadow-md",
             "animate-in fade-in-0 zoom-in-95",
             getAlignmentClasses()
           )}
